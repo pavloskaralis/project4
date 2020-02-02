@@ -6,7 +6,7 @@ import axios from 'axios'
 import './App.css'
 
 function App() {
-  const [data, updateData] = useState();
+  const [data, updateData] = useState([]);
   const [monthButtons, updateMonthButtons] = useState(['']);
   const [chart, updateChart] = useState(null);
   const [month, updateMonth] = useState('all');
@@ -19,6 +19,7 @@ function App() {
   }
 
   const prepareData = (data) => {
+    updateData(data)
     //dynamic month filter
     const months = Object.keys(data[0]).filter(key => ['id','name','created_at','updated_at'].indexOf(key) === -1);
     //pass months to state for dynamic render
@@ -46,7 +47,12 @@ function App() {
         'Andrew Yang': 'gold'
       }[candidate]
       
-      datasetsArr.push({label: candidate, data: candidateData, backgroundColor: color})
+      datasetsArr.push({
+        label: candidate, 
+        data: candidateData, 
+        backgroundColor: color,
+        fill: false
+      })
     })
   
     const chartData = { 
@@ -63,10 +69,12 @@ function App() {
       type: month !== 'all' ? 'bar' : 'line',
       data: data,
       options: {
+        animation: false,
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    max: 50
                 } 
             }]
         }
@@ -78,6 +86,16 @@ function App() {
 
   //componentDidMount hook; remount on month and candidate changes only
   useEffect(getData, [candidates,month]);
+
+  //toggle candidate buttons
+  const updatedCandidates = (name) => {
+    if(candidates.indexOf(name) === -1) {
+      return [...candidates, name]
+    } else {
+      const index = candidates.indexOf(name);
+      return [...candidates.slice(0, index), ...candidates.slice(index + 1)];
+    }
+  }
 
   return (
     <>
@@ -96,7 +114,17 @@ function App() {
         })}
       </div>
       <div className='candidates'>
-        
+        {data.map(candidate => {
+          return (
+            <div key={candidate.name} className='candidate-container' onClick={()=> {
+              chart.destroy();
+              updateCandidates(()=>updatedCandidates(candidate.name));
+            }}>
+              <img className='image'key={candidate.name}></img>
+              <div className='name'>{candidate.name}</div>
+            </div>
+          )
+        })}
       </div>
     </>
   )
