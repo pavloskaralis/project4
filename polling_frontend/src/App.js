@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Route, Switch } from 'react-router-dom'
 import Chart from 'chart.js'
-import history from './history'
 import axios from 'axios'
 import './App.css'
 
@@ -78,7 +76,6 @@ function App() {
       type: month !== 'all' ? 'bar' : 'line',
       data: data,
       options: {
-        
         animation: false,
         scales: {
             yAxes: [{
@@ -152,7 +149,6 @@ function App() {
       </div>
     </>
   )
-  
 }
 
 export default App
