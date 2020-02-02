@@ -21,9 +21,9 @@ function App() {
   const prepareData = (data) => {
     updateData(data)
     const allCandidates = [];
-    //dynamic load of all candidates
-    data.forEach(candidate => allCandidates.push(candidate.name));
-    updateCandidates(allCandidates);
+    // //dynamic load of all candidates
+    // data.forEach(candidate => allCandidates.push(candidate.name));
+    // updateCandidates(allCandidates);
     //dynamic month filter
     const months = Object.keys(data[0]).filter(key => ['id','name','created_at','updated_at'].indexOf(key) === -1);
     //pass months to state for dynamic render
@@ -55,7 +55,8 @@ function App() {
         label: candidate, 
         data: candidateData, 
         backgroundColor: color,
-        fill: false
+        fill: false,
+        borderColor: color
       })
     })
   
@@ -73,6 +74,7 @@ function App() {
       type: month !== 'all' ? 'bar' : 'line',
       data: data,
       options: {
+        
         animation: false,
         scales: {
             yAxes: [{
