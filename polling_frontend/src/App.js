@@ -57,11 +57,11 @@ function App() {
       }
       //bar color based on candidate    
       const color = {
-        'Joe Biden': 'red',
-        'Bernie Sanders': 'blue',
-        'Elizabeth Warren': 'green',
-        'Pete Buttigieg': 'orange',
-        'Andrew Yang': 'gold'
+        'Joe Biden': 'rgb(55, 40, 150)',
+        'Bernie Sanders': 'rgb(60, 110, 205)',
+        'Elizabeth Warren': 'rgb(125, 40, 230)',
+        'Pete Buttigieg': 'rgb(85, 200, 255)',
+        'Andrew Yang': 'rgb(0, 130, 120)'
       }[candidate]
       
       datasetsArr.push({
