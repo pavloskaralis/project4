@@ -12,19 +12,31 @@ function App() {
   const [candidates, updateCandidates] = useState([]);
 
   const getData = () => {
+    if(data.length === 0) {
       axios.get('http://localhost:3001/candidates')
       .then(({data}) => prepareData(data))
-      .then(chartData => chart ? updateChart(chartData) : createChart(chartData))
+      .then(chartData => createChart(chartData))
+    } else {
+      //skip get request on chart updates
+      let promise = new Promise(function(resolve, reject){
+        resolve(prepareData(data));
+      })
+      promise.then(data => updateChart(data))
+    }
+      
   }
 
   const prepareData = (data) => {
-    storeData(data)
-    //dynamic load of all candidates
+    console.log('in prepare')
+    //dynamic load of all candidates; causes a remount on first load
     if(candidates.length === 0){
       const allCandidates = [];
       data.forEach(candidate => allCandidates.push(candidate.name));
       updateCandidates(allCandidates);
     }
+    
+    storeData(data)
+    
     //dynamic month filter
     const months = Object.keys(data[0]).filter(key => ['id','name','created_at','updated_at'].indexOf(key) === -1);
     //pass months to state for dynamic render
@@ -70,6 +82,7 @@ function App() {
   }
 
   const createChart = (data) => {
+    console.log('in create')
     //create initial chart
     const ctx = document.querySelector('#chart')
     const tempsChart =  new Chart(ctx, {
