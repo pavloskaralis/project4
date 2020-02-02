@@ -12,9 +12,9 @@ function App() {
   const [candidates, updateCandidates] = useState([]);
 
   const getData = () => {
-    axios.get('http://localhost:3001/candidates')
-    .then(({data}) => prepareData(data))
-    .then(chartData => chart ? updateChart(chartData) : createChart(chartData))
+      axios.get('http://localhost:3001/candidates')
+      .then(({data}) => prepareData(data))
+      .then(chartData => chart ? updateChart(chartData) : createChart(chartData))
   }
 
   const prepareData = (data) => {
