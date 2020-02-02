@@ -141,7 +141,7 @@ function App() {
             <div key={candidate.name} className='candidate-container' onClick={()=> {
               updateCandidates(()=>updatedCandidates(candidate.name));
             }}>
-              <img className='image'key={candidate.name}></img>
+              <img className='image'key={candidate.name} src={candidate.img} />
               <div className='name'>{candidate.name}</div>
             </div>
           )
