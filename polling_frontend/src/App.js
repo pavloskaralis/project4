@@ -20,10 +20,12 @@ function App() {
 
   const prepareData = (data) => {
     updateData(data)
-    const allCandidates = [];
-    // //dynamic load of all candidates
-    // data.forEach(candidate => allCandidates.push(candidate.name));
-    // updateCandidates(allCandidates);
+    //dynamic load of all candidates
+    if(candidates.length === 0){
+      const allCandidates = [];
+      data.forEach(candidate => allCandidates.push(candidate.name));
+      updateCandidates(allCandidates);
+    }
     //dynamic month filter
     const months = Object.keys(data[0]).filter(key => ['id','name','created_at','updated_at'].indexOf(key) === -1);
     //pass months to state for dynamic render
