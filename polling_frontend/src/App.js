@@ -6,20 +6,21 @@ import axios from 'axios'
 import './App.css'
 
 function App() {
-  const [data, updateData] = useState([]);
-  const [monthButtons, updateMonthButtons] = useState(['']);
-  const [chart, updateChart] = useState(null);
+  const [data, storeData] = useState([]);
+  const [monthButtons, storeMonthButtons] = useState(['']);
+  const [typeChange, toggleTypeChange] = useState(false);
+  const [chart, storeChart] = useState(null);
   const [month, updateMonth] = useState('all');
   const [candidates, updateCandidates] = useState([]);
 
   const getData = () => {
     axios.get('http://localhost:3001/candidates')
     .then(({data}) => prepareData(data))
-    .then(chartData => createChart(chartData))
+    .then(chartData => chart ? updateChart(chartData) : createChart(chartData))
   }
 
   const prepareData = (data) => {
-    updateData(data)
+    storeData(data)
     //dynamic load of all candidates
     if(candidates.length === 0){
       const allCandidates = [];
@@ -29,7 +30,7 @@ function App() {
     //dynamic month filter
     const months = Object.keys(data[0]).filter(key => ['id','name','created_at','updated_at'].indexOf(key) === -1);
     //pass months to state for dynamic render
-    updateMonthButtons(['all',...months]);
+    storeMonthButtons(['all',...months]);
     //passed to Chart datasets property
     const datasetsArr = [];
     //render selected candidates only
@@ -71,6 +72,7 @@ function App() {
   }
 
   const createChart = (data) => {
+    //create initial chart
     const ctx = document.querySelector('#chart')
     const tempsChart =  new Chart(ctx, {
       type: month !== 'all' ? 'bar' : 'line',
@@ -88,14 +90,27 @@ function App() {
         }
       }
     })
-    //store chart to destroy on remount
-    updateChart(tempsChart);
+    //store chart to update
+    storeChart(tempsChart);
+  }
+
+  const updateChart = (data) => {
+    //if chart type changes, destroy and make new instead of update
+    if(typeChange){
+      chart.destroy();
+      toggleTypeChange(false);
+      createChart(data); 
+    }else{
+      chart.data.labels = [...data.labels];
+      chart.data.datasets = [...data.datasets];
+      chart.update(); 
+    }
   }
 
   //componentDidMount hook; remount on month and candidate changes only
-  useEffect(getData, [candidates,month]);
+  useEffect(getData, [candidates, month]);
 
-  //toggle candidate buttons
+  //toggle candidate buttons; add or remove conditional 
   const updatedCandidates = (name) => {
     if(candidates.indexOf(name) === -1) {
       return [...candidates, name]
@@ -112,12 +127,14 @@ function App() {
       </nav>
       <canvas id="chart" ></canvas>
       <div className='duration'>
-        {monthButtons.map(month => {
+        {monthButtons.map(button => {
           return (
-            <button key={month} onClick={()=>{
-              chart.destroy();
-              updateMonth(month);
-            }}>{month}</button>
+            <button key={button} onClick={()=>{
+              if(month !== button){
+                if((month === 'all' && button !== 'all') || (month !== 'all' && button === 'all'))toggleTypeChange(true);
+                updateMonth(button);
+              }
+            }}>{button}</button>
           )
         })}
       </div>
@@ -125,7 +142,6 @@ function App() {
         {data.map(candidate => {
           return (
             <div key={candidate.name} className='candidate-container' onClick={()=> {
-              chart.destroy();
               updateCandidates(()=>updatedCandidates(candidate.name));
             }}>
               <img className='image'key={candidate.name}></img>
