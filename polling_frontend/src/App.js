@@ -27,7 +27,6 @@ function App() {
   }
 
   const prepareData = (data) => {
-    console.log('in prepare')
     //dynamic load of all candidates; causes a remount on first load
     if(candidates.length === 0){
       const allCandidates = [];
@@ -35,6 +34,7 @@ function App() {
       updateCandidates(allCandidates);
     }
     
+    //pass data to state; must occur after above to avoid remount error
     storeData(data)
     
     //dynamic month filter
@@ -82,7 +82,6 @@ function App() {
   }
 
   const createChart = (data) => {
-    console.log('in create')
     //create initial chart
     const ctx = document.querySelector('#chart')
     const tempsChart =  new Chart(ctx, {
@@ -140,10 +139,9 @@ function App() {
         {monthButtons.map(button => {
           return (
             <button key={button} onClick={()=>{
-              if(month !== button){
-                if((month === 'all' && button !== 'all') || (month !== 'all' && button === 'all'))toggleTypeChange(true);
-                updateMonth(button);
-              }
+              //destroy vs update conditional for chart type change
+              if((month === 'all' && button !== 'all') || (month !== 'all' && button === 'all'))toggleTypeChange(true);
+              updateMonth(button);
             }}>{button}</button>
           )
         })}
