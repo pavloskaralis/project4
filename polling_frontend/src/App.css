@@ -1,4 +1,12 @@
 canvas {
     min-height: 464px;
 }
-
+.candidate-container {
+    width:80px;
+    float: left;
+    padding: 20px;
+}
+.candidate-container img {
+    max-height: 100%;
+    max-width: 100%;
+}

@@ -132,7 +132,7 @@ function App() {
   return (
     <>
       <nav>
-        <h1>2020 Democratic Polling Averages</h1>
+        <h1>2019 Democratic Polling Averages</h1>
       </nav>
       <canvas id="chart" ></canvas>
       <div className='duration'>
