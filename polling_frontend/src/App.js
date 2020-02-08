@@ -38,7 +38,7 @@ function App() {
     storeData(data)
     
     //dynamic month filter
-    const months = Object.keys(data[0]).filter(key => ['id','name','created_at','updated_at'].indexOf(key) === -1);
+    const months = Object.keys(data[0]).filter(key => ['id','img','name','created_at','updated_at'].indexOf(key) === -1);
     //pass months to state for dynamic render
     storeMonthButtons(['all',...months]);
     //passed to Chart datasets property
@@ -57,8 +57,8 @@ function App() {
       }
       //bar color based on candidate    
       const color = {
-        'Joe Biden': 'rgb(41, 91, 255)',
-        'Bernie Sanders': 'rgb(144, 237, 116)',
+        'Joe Biden': 'rgb(55, 40, 150)',
+        'Bernie Sanders': 'rgb(60, 110, 205)',
         'Elizabeth Warren': 'rgb(125, 40, 230)',
         'Pete Buttigieg': 'rgb(85, 200, 255)',
         'Andrew Yang': 'rgb(0, 130, 120)'
@@ -74,7 +74,7 @@ function App() {
     })
   
     const chartData = { 
-      labels: month !== 'all' ? [month] : months,
+      labels: month !== 'all' ? [month.charAt(0).toUpperCase() + month.slice(1)] : months.map(map => map.charAt(0).toUpperCase() + map.slice(1)),
       datasets: datasetsArr
     }
   
@@ -143,8 +143,8 @@ function App() {
               //destroy vs update conditional for chart type change
               if((month === 'all' && button !== 'all') || (month !== 'all' && button === 'all'))toggleTypeChange(true);
               updateMonth(button);
-            }}>{button}</button>
-          )
+            }}>{button.charAt(0).toUpperCase() + button.slice(1)}</button>
+            )
         })}
       </div>
       <div className='candidates'>
