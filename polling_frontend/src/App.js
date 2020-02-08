@@ -57,8 +57,8 @@ function App() {
       }
       //bar color based on candidate    
       const color = {
-        'Joe Biden': 'rgb(55, 40, 150)',
-        'Bernie Sanders': 'rgb(60, 110, 205)',
+        'Joe Biden': 'rgb(41, 91, 255)',
+        'Bernie Sanders': 'rgb(144, 237, 116)',
         'Elizabeth Warren': 'rgb(125, 40, 230)',
         'Pete Buttigieg': 'rgb(85, 200, 255)',
         'Andrew Yang': 'rgb(0, 130, 120)'
@@ -134,6 +134,7 @@ function App() {
       <nav>
         <h1>2019 Democratic Polling Averages</h1>
       </nav>
+      
       <canvas id="chart" ></canvas>
       <div className='duration'>
         {monthButtons.map(button => {

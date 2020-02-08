@@ -20,25 +20,68 @@ body {
 h1 {
     text-align: center;
     font-family: 'Montserrat Subrayada', sans-serif;
+    font-size: 3rem;
 }
+
 canvas {
     min-height: 464px;
     background-color: white;
 }
+
 .duration {
     margin: 0 auto;
+    text-align: center;
+    margin-bottom: 15px;
 }
+
 button {
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
 }
+
+.candidates {
+    display: flex;
+}
 .candidate-container {
-    width:80px;
-    float: left;
-    padding: 20px;
+    width:15vw;
+    padding: 40px;
 }
 .candidate-container img {
-    max-height: 100%;
-    max-width: 100%;
+    max-height: 300px;
+    max-width: 200px;
+    padding: 0;
+    margin: 0 auto;
+    text-align: center;
     
+}
+
+img {
+    margin: 0 auto;
+}
+
+.name {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    background-color: rgb(54, 54, 59);
+    padding: 5px;;
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.candidate-container:nth-child(1) {
+    background-color: rgb(41, 91, 255);
+}
+
+.candidate-container:nth-child(2) {
+    background-color: rgb(85, 200, 255);
+}
+.candidate-container:nth-child(3) {
+    background-color: rgb(125, 40, 230);
+}
+.candidate-container:nth-child(4) {
+    background-color: rgb(144, 237, 116);
+}
+.candidate-container:nth-child(5) {
+    background-color: rgb(0, 130, 120);
 }
