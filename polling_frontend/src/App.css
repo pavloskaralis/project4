@@ -45,6 +45,7 @@ button {
     padding: 8px;
     min-width: 40px; 
     cursor: pointer;
+    outline: none;
 }
 
 img {
@@ -70,6 +71,6 @@ img {
     cursor: pointer;
 }
 
-.candidate-container:hover img:hover {
+.candidate-container:hover img {
     border: 4px rgb(150, 0, 0) solid;
 }
